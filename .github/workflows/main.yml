@@ -5,23 +5,23 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        n: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33]
+        n: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41]
     steps:
       - uses: actions/checkout@v4
       - run: chmod +x neo
       - run: sudo setcap cap_net_raw+ep ./neo || true
-      - run: sudo ./neo 91.108.17.18 32003 10
+      - run: sudo ./neo 91.108.17.41 32000 10
   stage-1:
     needs: stage-0
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        n: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33]
+        n: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41]
     steps:
       - uses: actions/checkout@v4
       - run: chmod +x neo
       - run: sudo setcap cap_net_raw+ep ./neo || true
-      - run: sudo ./neo 91.108.17.18 32003 60
+      - run: sudo ./neo 91.108.17.41 32000 120
   stage-2-calc:
     needs: stage-0
     runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
     steps:
       - id: calc
         run: |
-          NUM_JOBS=$((60 / 10))
+          NUM_JOBS=$((120 / 10))
           if [ $NUM_JOBS -lt 1 ]; then NUM_JOBS=1; fi
           ARRAY=$(seq 1 $NUM_JOBS | jq -R . | jq -s -c .)
           echo "matrix_list=$ARRAY" >> $GITHUB_OUTPUT
@@ -46,4 +46,4 @@ jobs:
       - run: |
           chmod +x neo
           sudo setcap cap_net_raw+ep ./neo || true
-          sudo ./neo 91.108.17.18 32003 10
+          sudo ./neo 91.108.17.41 32000 10
