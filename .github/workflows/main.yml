@@ -1,4 +1,4 @@
-name: package
+name: test
 on: [push]
 jobs:
   stage-0:
